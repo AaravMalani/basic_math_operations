@@ -5,7 +5,7 @@ import glob
 import sys
 from zipfile import ZipFile
 
-    
+version = '1.0.0'
 module_name = 'basic_math_operations'
 
 library_path = glob.glob("**/*.a", recursive=True)

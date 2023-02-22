@@ -2,7 +2,7 @@ name: "Make libbasic_math_operations."
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, patch-3 ]
   schedule:
     - cron: '18 13 * * 6'
 
@@ -26,7 +26,6 @@ jobs:
       run: |
         echo ${{ steps.version.outputs.version }} > version.txt
         echo ${{ steps.version.outputs.version }}
-
   make-linux:
     name: Make libbasic_math_operations for Linux.
     runs-on: ubuntu-latest
@@ -101,17 +100,8 @@ jobs:
       - make-windows
     runs-on: windows-latest
     steps:
-      - name: Checkout repo.
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.7.1
-      - name: Use the version
-        run: |
-          echo ${{ steps.version.outputs.version }} > version.txt
-          echo ${{ steps.version.outputs.version }}
+      - name: Checkout Repo
+        uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -139,15 +129,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Git Version
-        id: version
-        uses: codacy/git-version@2.7.1
-      - name: Use the version
-        run: |
-          echo ${{ steps.version.outputs.version }} > version.txt
-          echo ${{ steps.version.outputs.version }}
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -277,5 +258,3 @@ jobs:
       - name: Run Twine
         run: |
           twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} dist/*
-          
-          
